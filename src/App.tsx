@@ -28,21 +28,21 @@ function App() {
     });
     
     audioElement.addEventListener('error', (e) => {
-      console.warn('Audio file could not be loaded. Music will be disabled.', e);
+      console.warn('Audio file could not be loaded from GitHub. Music will be disabled.', e);
       setAudioReady(false);
     });
     
     audioElement.addEventListener('loadstart', () => {
-      console.log('Audio loading started');
+      console.log('Audio loading started from GitHub repository');
     });
 
     audioElement.addEventListener('loadeddata', () => {
-      console.log('Audio data loaded');
+      console.log('Audio data loaded from GitHub');
     });
 
     // Additional event listener for when audio can start playing
     audioElement.addEventListener('canplay', () => {
-      console.log('Audio can start playing');
+      console.log('GitHub audio can start playing');
       if (!isPlaying) {
         tryAutoplay(audioElement);
       }
@@ -65,9 +65,9 @@ function App() {
       audioElement.currentTime = 0;
       await audioElement.play();
       setIsPlaying(true);
-      console.log('Autoplay successful');
+      console.log('GitHub audio autoplay successful');
     } catch (error) {
-      console.log('Autoplay blocked by browser - user interaction required', error);
+      console.log('GitHub audio autoplay blocked by browser - user interaction required', error);
       setIsPlaying(false);
     }
   };
