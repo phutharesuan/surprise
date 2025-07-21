@@ -11,9 +11,9 @@ function App() {
   const [audioReady, setAudioReady] = useState(false);
 
   useEffect(() => {
-    // Create audio element with correct GitHub raw URL
+    // Create audio element with new GitHub raw URL
     const audioElement = new Audio();
-    audioElement.src = 'https://raw.githubusercontent.com/phutharesuan/surprise/main/surprise.mp3';
+    audioElement.src = 'https://github.com/phutharesuan/surprise/blob/main/surprise_1.mp3?raw=true';
     audioElement.loop = true;
     audioElement.volume = 0.5;
     audioElement.preload = 'auto';
@@ -22,27 +22,27 @@ function App() {
     // Add event listeners
     audioElement.addEventListener('canplaythrough', () => {
       setAudioReady(true);
-      console.log('Audio ready to play');
+      console.log('New GitHub audio file ready to play');
       // Try to autoplay immediately when ready
       tryAutoplay(audioElement);
     });
     
     audioElement.addEventListener('error', (e) => {
-      console.warn('Audio file could not be loaded from GitHub. Music will be disabled.', e);
+      console.warn('New GitHub audio file could not be loaded. Music will be disabled.', e);
       setAudioReady(false);
     });
     
     audioElement.addEventListener('loadstart', () => {
-      console.log('Audio loading started from GitHub repository');
+      console.log('New audio loading started from GitHub repository');
     });
 
     audioElement.addEventListener('loadeddata', () => {
-      console.log('Audio data loaded from GitHub');
+      console.log('New audio data loaded from GitHub');
     });
 
     // Additional event listener for when audio can start playing
     audioElement.addEventListener('canplay', () => {
-      console.log('GitHub audio can start playing');
+      console.log('New GitHub audio can start playing');
       if (!isPlaying) {
         tryAutoplay(audioElement);
       }
@@ -65,9 +65,9 @@ function App() {
       audioElement.currentTime = 0;
       await audioElement.play();
       setIsPlaying(true);
-      console.log('GitHub audio autoplay successful');
+      console.log('New GitHub audio autoplay successful');
     } catch (error) {
-      console.log('GitHub audio autoplay blocked by browser - user interaction required', error);
+      console.log('New GitHub audio autoplay blocked by browser - user interaction required', error);
       setIsPlaying(false);
     }
   };
@@ -150,7 +150,7 @@ function App() {
         {/* Background Music */}
         <audio
           id="background-music"
-          src="https://raw.githubusercontent.com/phutharesuan/surprise/main/surprise.mp3"
+          src="https://github.com/phutharesuan/surprise/blob/main/surprise_1.mp3?raw=true"
           loop
           preload="auto"
           crossOrigin="anonymous"
@@ -206,7 +206,7 @@ function App() {
         {/* Background Music */}
         <audio
           id="background-music"
-          src="https://raw.githubusercontent.com/phutharesuan/surprise/main/surprise.mp3"
+          src="https://github.com/phutharesuan/surprise/blob/main/surprise_1.mp3?raw=true"
           loop
           preload="auto"
           crossOrigin="anonymous"
