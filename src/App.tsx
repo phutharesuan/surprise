@@ -11,9 +11,9 @@ function App() {
   const [audioReady, setAudioReady] = useState(false);
 
   useEffect(() => {
-    // Create audio element with GitHub raw URL
+    // Create audio element with correct GitHub raw URL
     const audioElement = new Audio();
-    audioElement.src = 'https://raw.githubusercontent.com/phutharesuanwachirapisut/surprise/main/surprise.mp3';
+    audioElement.src = 'https://raw.githubusercontent.com/phutharesuan/surprise/main/surprise.mp3';
     audioElement.loop = true;
     audioElement.volume = 0.5;
     audioElement.preload = 'auto';
@@ -23,12 +23,12 @@ function App() {
     audioElement.addEventListener('canplaythrough', () => {
       setAudioReady(true);
       console.log('Audio ready to play');
-      // Try to autoplay if possible
+      // Try to autoplay immediately when ready
       tryAutoplay(audioElement);
     });
     
     audioElement.addEventListener('error', (e) => {
-      console.warn('Audio file could not be loaded from GitHub. Music will be disabled.', e);
+      console.warn('Audio file could not be loaded. Music will be disabled.', e);
       setAudioReady(false);
     });
     
@@ -39,8 +39,19 @@ function App() {
     audioElement.addEventListener('loadeddata', () => {
       console.log('Audio data loaded');
     });
+
+    // Additional event listener for when audio can start playing
+    audioElement.addEventListener('canplay', () => {
+      console.log('Audio can start playing');
+      if (!isPlaying) {
+        tryAutoplay(audioElement);
+      }
+    });
     
     setAudio(audioElement);
+
+    // Attempt to load the audio immediately
+    audioElement.load();
 
     return () => {
       audioElement.pause();
@@ -50,11 +61,13 @@ function App() {
 
   const tryAutoplay = async (audioElement: HTMLAudioElement) => {
     try {
+      // Reset to beginning and play
+      audioElement.currentTime = 0;
       await audioElement.play();
       setIsPlaying(true);
       console.log('Autoplay successful');
     } catch (error) {
-      console.log('Autoplay blocked by browser - user interaction required');
+      console.log('Autoplay blocked by browser - user interaction required', error);
       setIsPlaying(false);
     }
   };
@@ -72,8 +85,8 @@ function App() {
   const handleCardClick = () => {
     setIsCardOpen(true);
     
-    // Try to play music when user interacts
-    if (audio && audioReady && !isPlaying) {
+    // Always try to play music when user interacts (this bypasses autoplay restrictions)
+    if (audio && audioReady) {
       forcePlayAudio();
     }
     
@@ -137,7 +150,7 @@ function App() {
         {/* Background Music */}
         <audio
           id="background-music"
-          src="https://raw.githubusercontent.com/phutharesuanwachirapisut/surprise/main/surprise.mp3"
+          src="https://raw.githubusercontent.com/phutharesuan/surprise/main/surprise.mp3"
           loop
           preload="auto"
           crossOrigin="anonymous"
@@ -193,7 +206,7 @@ function App() {
         {/* Background Music */}
         <audio
           id="background-music"
-          src="https://raw.githubusercontent.com/phutharesuanwachirapisut/surprise/main/surprise.mp3"
+          src="https://raw.githubusercontent.com/phutharesuan/surprise/main/surprise.mp3"
           loop
           preload="auto"
           crossOrigin="anonymous"
